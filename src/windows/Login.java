@@ -48,7 +48,7 @@ public class Login {
 		btnLogin.setOnAction(e -> {
 			ActiveUser.setUser(txtUser.getText());
 			ActiveUser.setId(1121);
-			Main.getPrimaryStage().setScene(Redirect.getScene());
+			Main.getPrimaryStage().setScene(Control.getScene());
 		});
 		btnDetails.setText("Get Details");
 		btnDetails.setOnAction(e -> {

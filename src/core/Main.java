@@ -14,7 +14,6 @@ import windows.Login;
 
 public class Main extends Application{
 	private static Stage stage;
-	String urlString = "http://127.0.0.1:3542/test";
 	
 	public static void main(String args[]) {
 		launch(args);
@@ -40,18 +39,6 @@ public class Main extends Application{
 	
 	
 	
-	public void callServer(ActionEvent event) throws IOException {
-		String output;
-		CloseableHttpClient httpclient = HttpClients.createDefault();
-		HttpGet httpGet = new HttpGet(urlString);
-		CloseableHttpResponse response = httpclient.execute(httpGet);
-		BufferedReader br = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-		while((output = br.readLine()) != null) {
-			System.out.println(output);
-		}
-		
-		response.close();
-	}
 	
 
 

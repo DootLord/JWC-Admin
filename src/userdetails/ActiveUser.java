@@ -3,6 +3,7 @@ package userdetails;
 public class ActiveUser {
 	private static String userName;
 	private static int userId;
+	private static final String url = "http://127.0.0.1:80";
 	
 	public static void resetLogin() {
 		userName = null;
@@ -23,6 +24,10 @@ public class ActiveUser {
 	
 	public static int getId() {
 		return userId;
+	}
+	
+	public static String getURL() {
+		return url;
 	}
 
 	

@@ -48,6 +48,7 @@ public class Login {
 		btnLogin.setOnAction(e -> {
 			ActiveUser.setUser(txtUser.getText());
 			ActiveUser.setId(1121);
+			Main.setTitle(Control.getSceneTitle());
 			Main.getPrimaryStage().setScene(Control.getScene());
 		});
 		btnDetails.setText("Get Details");
@@ -65,6 +66,7 @@ public class Login {
 		layout.setAlignment(Pos.CENTER);
 		scene = new Scene(layout,300,200);
 		
+		Main.setTitle("Login");
 		return scene;
 	}
 	

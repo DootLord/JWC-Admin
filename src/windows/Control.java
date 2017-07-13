@@ -17,109 +17,182 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 
+import elements.NumberTextField;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import popup.AlertBox;
 import userdetails.ActiveUser;
 
 public class Control {
-	private static Button btnGet;
-	private static Button btnSet;
 	private static Button btnNew;
 	private static Button btnDelete;
-	private static TextField txtTest;
-	private static TextField txtNewUser;
+	private static Button btnNewAdmin;
+	private static Button btnRename;
+	private static Button btnPoint;
+	private static TextField txtUser;
+	private static TextField txtAdminUser;
+	private static TextField txtAdminPass;
+	private static TextField txtRenameOld;
+	private static TextField txtRenameNew;
+	private static TextField txtUserPnt;
+	private static NumberTextField txtPoint;
+	private static Label lblUser;
+	private static Label lblAdmin;
+	private static Label lblRename;
+	private static Label lblPoint;
 	private static HBox userBtnRow;
 	private static HBox row1Layout;
 	private static HBox row2Layout;
 	private static VBox layout;
+	private static VBox adminLayout;
+	private static VBox renameLayout;
 	private static VBox pointLayout;
 	private static VBox userLayout;
 	private static Scene scene;
+	private static String borderStyle;
 	
 	public static void initalize(){
-		// Points Pannel
-		btnGet = new Button("Get Response");
-		btnSet = new Button("Update Server");
-		txtTest = new TextField();
+		borderStyle = "-fx-border: 12px solid;" + "-fx-border-color:black;";
 		
-		btnGet.setOnAction(e -> {
-			try {
-				getTempSVR(e);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		});
-		
-		btnSet.setOnAction(e ->{
-			try {
-				setTempSVR(e,txtTest.getText());
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		});
-		
-		pointLayout = new VBox();
-	    pointLayout.setStyle("-fx-background-color:blue");
-		pointLayout.setPadding(new Insets(10));
-		pointLayout.setSpacing(10);
-		pointLayout.setPrefHeight(0.2);
-		pointLayout.setAlignment(Pos.TOP_CENTER);
-		pointLayout.getChildren().addAll(btnGet,btnSet,txtTest);
-		
-		// User Panel
-		txtNewUser = new TextField();
+		// New/Delete User
+		txtUser = new TextField();
 		btnNew = new Button("New");
 		btnDelete = new Button("Delete");
+		lblUser = new Label("User Add/Delete");
+		lblUser.setPadding(new Insets(0,0,10,0));
 		userBtnRow = new HBox();
+		userBtnRow.setPadding(new Insets(10,0,0,0));
 		userBtnRow.setSpacing(60);
 		
-		btnNew.setOnAction(e -> System.out.println("New Press"));
-		btnDelete.setOnAction(e -> System.out.println("Delete Press"));
+		btnNew.setOnAction(e -> newUser(txtUser.getText()));
+		btnDelete.setOnAction(e -> deleteUser(txtUser.getText()));
 		
 		userBtnRow.getChildren().addAll(btnNew,btnDelete);
 		userLayout = new VBox();
-		userLayout.setStyle("-fx-background-color:green");
 		userLayout.setPadding(new Insets(10));
-		userLayout.setPrefHeight(0);
 		userLayout.setAlignment(Pos.TOP_CENTER);
-		userLayout.getChildren().addAll(txtNewUser,userBtnRow);
+		userLayout.setStyle(borderStyle + "-fx-background-color: #b5f4c1");
 		
+		userLayout.getChildren().addAll(lblUser,txtUser,userBtnRow);
+		
+		// User Rename
+		lblRename = new Label("Rename User");
+		
+		btnRename = new Button("Rename");
+		btnRename.setOnAction(e -> renameUser(txtRenameOld.getText(), txtRenameNew.getText()));
+		
+		txtRenameOld = new TextField();
+		txtRenameNew = new TextField();
+		
+		renameLayout = new VBox();
+		renameLayout.getChildren().addAll(lblRename,txtRenameOld,txtRenameNew,btnRename);
+		renameLayout.setAlignment(Pos.CENTER);
+		renameLayout.setPadding(new Insets(10));
+		renameLayout.setSpacing(3);
+		renameLayout.setStyle(borderStyle + "-fx-background-color: #b5f4f1");
+		
+		// New Admin
+		lblAdmin = new Label("Create Admin");
+		
+		btnNewAdmin = new Button("Create Admin");
+		btnNewAdmin.setOnAction(e -> makeAdmin(txtAdminUser.getText(), txtAdminPass.getText()));
+		
+		txtAdminUser = new TextField();
+		txtAdminUser.setPromptText("Username");
+		txtAdminPass = new TextField();
+		txtAdminPass.setPromptText("Password");
+		
+		adminLayout = new VBox();
+		adminLayout.setPadding(new Insets(10));
+		adminLayout.setAlignment(Pos.TOP_CENTER);
+		adminLayout.getChildren().addAll(lblAdmin,txtAdminUser,txtAdminPass,btnNewAdmin);
+		adminLayout.setSpacing(3);
+		adminLayout.setStyle(borderStyle + "-fx-background-color: #f4b5b5");
+		
+		// Point Alter
+		lblPoint = new Label ("Point Modification");
+		
+		txtUserPnt = new TextField();
+		txtUserPnt.setPromptText("User");
+		txtPoint = new NumberTextField();
+		txtPoint.setPromptText("Points");
+		
+		btnPoint = new Button("Set Score");
+		btnPoint.setOnAction(e -> alterPoints(txtUserPnt.getText(),Integer.parseInt(txtPoint.getText())));
+		
+		pointLayout = new VBox();
+		pointLayout.setPadding(new Insets(10));
+		pointLayout.setAlignment(Pos.TOP_CENTER);
+		pointLayout.setSpacing(3);
+		pointLayout.setStyle(borderStyle + "-fx-background-color: #f4f2b5");
+		pointLayout.getChildren().addAll(lblPoint,txtUserPnt,txtPoint,btnPoint);
 		
 		// Overall Layout
 		row1Layout = new HBox();
-		row1Layout.setStyle("-fx-background-color:pink");
-		row1Layout.setPadding(new Insets(15,12,15,12));
+		row1Layout.setPadding(new Insets(15,12,5,12));
 		
-		row1Layout.getChildren().addAll(pointLayout);
+		row1Layout.setSpacing(5);
+		row1Layout.getChildren().addAll(adminLayout,renameLayout);
 		
 		row2Layout = new HBox();
-		row2Layout.setStyle("-fx-background-color:purple");
-		row2Layout.setPadding(new Insets(15,12,15,12));
-		row2Layout.getChildren().addAll(userLayout);
+		row2Layout.setSpacing(5);
+		row2Layout.setPadding(new Insets(15,12,0,12));
+		row2Layout.getChildren().addAll(userLayout, pointLayout);
 		
 		layout = new VBox();
 		layout.getChildren().addAll(row1Layout,row2Layout);
 		
-		scene = new Scene(layout,500,500);
+		scene = new Scene(layout,375,275);
 		
 	}
 	
 	
 	public static Scene getScene() {
 		initalize();
-		
-		
-		
-		
 		return scene;
 	}
+	
+	public static String getSceneTitle() {
+		return "JWC Control Panel - " + ActiveUser.getUser();
+	}
+	
+	public static void newUser(String user) {
+		if(user.equals("")) {
+			AlertBox.display("No Text Found!!", "Enter a user's name into the user text field!");
+			
+		}
+		/*
+		 * HTTP Request Goes here
+		 */
+		System.out.println("New user " + user + " created!");
+	}
+	
+	public static void deleteUser(String user) {
+		System.out.println("User " + user + " deleted!");
+	}
+	
+	public static void makeAdmin(String user, String password) {
+		
+	}
+	
+	public static void renameUser(String user, String newName) {
+		
+		System.out.println("User " + user + " now renamed to " + newName);
+	}
+	
+	
+	public static void alterPoints(String user, int newPoints) {
+		System.out.println("User " + user + " score set to " + newPoints);
+	}
+	
+	
 	
 
 	public static void getTempSVR(ActionEvent event) throws IOException {

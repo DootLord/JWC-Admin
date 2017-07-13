@@ -1,13 +1,5 @@
 package core;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 import windows.Login;
 
@@ -23,7 +15,6 @@ public class Main extends Application{
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		setPrimaryStage(primaryStage);
-		
 		primaryStage.setScene(Login.getScene());
 		primaryStage.show();
 		
@@ -31,6 +22,10 @@ public class Main extends Application{
 	
 	public static Stage getPrimaryStage() {
 		return stage;
+	}
+	
+	public static void setTitle(String title) {
+		stage.setTitle(title);
 	}
 	
 	public void setPrimaryStage(Stage pStage) {

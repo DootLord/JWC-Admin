@@ -62,41 +62,45 @@ public class Control {
 		borderStyle = "-fx-border: 12px solid;" + "-fx-border-color:black;";
 		
 		// New/Delete User
-		txtUser = new TextField();
-		btnNew = new Button("New");
-		btnDelete = new Button("Delete");
 		lblUser = new Label("User Add/Delete");
 		lblUser.setPadding(new Insets(0,0,10,0));
+		
+		txtUser = new TextField();
+		txtUser.setPromptText("User");
+		
+		btnNew = new Button("New");
+		btnNew.setOnAction(e -> newUser(txtUser.getText()));
+		btnDelete = new Button("Delete");
+		btnDelete.setOnAction(e -> deleteUser(txtUser.getText()));
+		
 		userBtnRow = new HBox();
 		userBtnRow.setPadding(new Insets(10,0,0,0));
 		userBtnRow.setSpacing(60);
-		
-		btnNew.setOnAction(e -> newUser(txtUser.getText()));
-		btnDelete.setOnAction(e -> deleteUser(txtUser.getText()));
-		
 		userBtnRow.getChildren().addAll(btnNew,btnDelete);
-		userLayout = new VBox();
-		userLayout.setPadding(new Insets(10));
-		userLayout.setAlignment(Pos.TOP_CENTER);
-		userLayout.setStyle(borderStyle + "-fx-background-color: #b5f4c1");
 		
+		userLayout = new VBox();
+		userLayout.setAlignment(Pos.TOP_CENTER);
+		userLayout.setPadding(new Insets(10));
+		userLayout.setStyle(borderStyle + "-fx-background-color: #b5f4c1");
 		userLayout.getChildren().addAll(lblUser,txtUser,userBtnRow);
 		
 		// User Rename
 		lblRename = new Label("Rename User");
 		
+		txtRenameOld = new TextField();
+		txtRenameOld.setPromptText("Current Name");
+		txtRenameNew = new TextField();
+		txtRenameNew.setPromptText("New Name");
+		
 		btnRename = new Button("Rename");
 		btnRename.setOnAction(e -> renameUser(txtRenameOld.getText(), txtRenameNew.getText()));
 		
-		txtRenameOld = new TextField();
-		txtRenameNew = new TextField();
-		
 		renameLayout = new VBox();
-		renameLayout.getChildren().addAll(lblRename,txtRenameOld,txtRenameNew,btnRename);
 		renameLayout.setAlignment(Pos.CENTER);
 		renameLayout.setPadding(new Insets(10));
 		renameLayout.setSpacing(3);
 		renameLayout.setStyle(borderStyle + "-fx-background-color: #b5f4f1");
+		renameLayout.getChildren().addAll(lblRename,txtRenameOld,txtRenameNew,btnRename);
 		
 		// New Admin
 		lblAdmin = new Label("Create Admin");
@@ -110,11 +114,11 @@ public class Control {
 		txtAdminPass.setPromptText("Password");
 		
 		adminLayout = new VBox();
-		adminLayout.setPadding(new Insets(10));
 		adminLayout.setAlignment(Pos.TOP_CENTER);
-		adminLayout.getChildren().addAll(lblAdmin,txtAdminUser,txtAdminPass,btnNewAdmin);
+		adminLayout.setPadding(new Insets(10));
 		adminLayout.setSpacing(3);
 		adminLayout.setStyle(borderStyle + "-fx-background-color: #f4b5b5");
+		adminLayout.getChildren().addAll(lblAdmin,txtAdminUser,txtAdminPass,btnNewAdmin);
 		
 		// Point Alter
 		lblPoint = new Label ("Point Modification");
@@ -128,8 +132,8 @@ public class Control {
 		btnPoint.setOnAction(e -> alterPoints(txtUserPnt.getText(),Integer.parseInt(txtPoint.getText())));
 		
 		pointLayout = new VBox();
-		pointLayout.setPadding(new Insets(10));
 		pointLayout.setAlignment(Pos.TOP_CENTER);
+		pointLayout.setPadding(new Insets(10));
 		pointLayout.setSpacing(3);
 		pointLayout.setStyle(borderStyle + "-fx-background-color: #f4f2b5");
 		pointLayout.getChildren().addAll(lblPoint,txtUserPnt,txtPoint,btnPoint);
@@ -137,7 +141,6 @@ public class Control {
 		// Overall Layout
 		row1Layout = new HBox();
 		row1Layout.setPadding(new Insets(15,12,5,12));
-		
 		row1Layout.setSpacing(5);
 		row1Layout.getChildren().addAll(adminLayout,renameLayout);
 		
@@ -149,8 +152,7 @@ public class Control {
 		layout = new VBox();
 		layout.getChildren().addAll(row1Layout,row2Layout);
 		
-		scene = new Scene(layout,375,275);
-		
+		scene = new Scene(layout,375,300);
 	}
 	
 	
